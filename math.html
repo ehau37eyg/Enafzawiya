@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دروس الرياضيات - بوابة مدرسة النفزاوية</title> <!-- Page Specific Title -->
+    <!-- PWA: Manifest Link -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Google Font Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Variables & Base Styles (Copied from index.html) --- */
+        :root {
+            --primary-hue: 210; /* Blue */
+            --secondary-hue: 260; /* Purple */
+            --accent-hue: 30;     /* Orange/Gold */
+            --youtube-hue: 350;   /* Red (closer to YouTube color) */
+            --lessons-hue: 150;   /* Green */ /* Added for Lessons section */
+            --math-hue: 250; /* A distinct color for Math */
+            --physics-hue: 190; /* A distinct color for Physics/Chem */
+            --arabic-hue: 10; /* A distinct color for Arabic */
+            --social-hue: 80; /* A distinct color for Social Studies */
+
+
+            --primary-color: hsl(var(--primary-hue), 90%, 60%);
+            --primary-dark: hsl(var(--primary-hue), 80%, 50%);
+            --primary-light: hsl(var(--primary-hue), 90%, 96%);
+
+            --secondary-color: hsl(var(--secondary-hue), 70%, 65%);
+            --accent-color: hsl(var(--accent-hue), 95%, 60%);
+            --accent-dark: hsl(var(--accent-hue), 90%, 50%);
+
+            --youtube-color: hsl(var(--youtube-hue), 90%, 50%);
+            --youtube-dark: hsl(var(--youtube-hue), 85%, 40%);
+
+            --lessons-color: hsl(var(--lessons-hue), 70%, 50%);
+            --lessons-dark: hsl(var(--lessons-hue), 65%, 40%);
+
+            --math-color: hsl(var(--math-hue), 70%, 50%); /* Math color */
+            --math-dark: hsl(var(--math-hue), 65%, 40%); /* Math dark color */
+            --physics-color: hsl(var(--physics-hue), 70%, 50%); /* Physics color */
+            --physics-dark: hsl(var(--physics-hue), 65%, 40%); /* Physics dark color */
+            --arabic-color: hsl(var(--arabic-hue), 70%, 50%); /* Arabic color */
+            --arabic-dark: hsl(var(--arabic-hue), 65%, 40%); /* Arabic dark color */
+            --social-color: hsl(var(--social-hue), 70%, 50%); /* Social color */
+            --social-dark: hsl(var(--social-hue), 65%, 40%); /* Social dark color */
+
+
+            --text-dark: hsl(var(--primary-hue), 20%, 25%);
+            --text-light: hsl(0, 0%, 100%);
+            --text-muted: hsl(var(--primary-hue), 15%, 55%);
+
+            --glass-bg: hsla(0, 0%, 100%, 0.55);
+            --glass-border: hsla(0, 0%, 100%, 0.7);
+            --glass-light: hsla(0, 0%, 100%, 0.8); /* Slightly more opaque glass for cards */
+
+
+            --shadow-color: hsla(var(--primary-hue), 40%, 50%, 0.2);
+            --shadow-strong-color: hsla(var(--primary-hue), 40%, 50%, 0.35);
+             --shadow-light: hsla(var(--primary-hue), 20%, 40%, 0.1); /* Lighter shadow for cards */
+
+
+            --font-family: 'Cairo', sans-serif;
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 10px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; } /* Smooth scrolling */
+        body {
+            font-family: var(--font-family); direction: rtl; background: linear-gradient(135deg, hsl(190, 80%, 70%), hsl(var(--secondary-hue), 80%, 75%)); background-attachment: fixed;
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center; min-height: 100vh; padding: 25px; color: var(--text-dark); font-size: 16px; overflow-x: hidden;
+        }
+
+        /* --- Profile Section (Copied) --- */
+        .profile-section {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            display: flex; align-items: center; gap: 12px; background: hsla(0, 0%, 100%, 0.65); padding: 8px 15px; border-radius: 50px; border: 1px solid var(--glass-border); box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s linear 0.5s; z-index: 100;
+        }
+         .profile-section.visible { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s linear 0s; }
+         .profile-icon i { font-size: 1.6rem; color: var(--primary-dark); background-color: var(--primary-light); border-radius: 50%; padding: 5px; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; }
+         .profile-name { font-weight: 600; font-size: 0.95rem; color: var(--text-dark); max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+         /* --- Notification Bell Styles (Copied) --- */
+         .notification-bell {
+             position: relative;
+             cursor: pointer;
+             color: var(--text-muted);
+             transition: color 0.2s ease;
+             padding: 5px;
+             margin-left: -5px;
+         }
+         .notification-bell i { font-size: 1.1rem; }
+         .notification-bell:hover { color: var(--accent-dark); }
+         .notification-count {
+             position: absolute; top: 0px; right: -5px;
+             background-color: hsl(var(--youtube-hue), 80%, 50%);
+             color: var(--text-light); font-size: 0.7rem; font-weight: 700; border-radius: 50%;
+             padding: 1px 5px; min-width: 18px; text-align: center; line-height: 1.2;
+             border: 1px solid white; opacity: 0; transform: scale(0.8);
+             transition: opacity 0.3s ease, transform 0.3s ease;
+         }
+         .notification-count.visible { opacity: 1; transform: scale(1); }
+         .logout-button { background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; margin-right: -5px; padding: 5px; transition: color 0.2s ease; }
+         .logout-button:hover { color: hsl(var(--youtube-hue), 70%, 50%); }
+
+
+        /* --- Lessons Page Container (Copied) --- */
+        .lessons-container {
+            background: var(--glass-bg); backdrop-filter: blur(15px) saturate(150%); -webkit-backdrop-filter: blur(15px) saturate(150%);
+            padding: 40px 50px 50px 50px; border-radius: var(--border-radius-lg); box-shadow: 0 12px 40px var(--shadow-color);
+            max-width: 900px; width: 100%; text-align: center; border: 1px solid var(--glass-border);
+            position: relative; margin-top: 60px; margin-bottom: 30px;
+        }
+
+        /* --- Page Header (Back Button & Title - Copied) --- */
+        .page-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;
+        }
+         .page-header .back-link {
+             font-size: 1.2rem; color: var(--text-muted); text-decoration: none;
+             display: flex; align-items: center; gap: 8px;
+             transition: color 0.2s ease;
+         }
+         .page-header .back-link:hover { color: var(--primary-dark); }
+         .page-header .back-link i { transform: rotate(180deg); } /* Arrow points left in RTL */
+
+         .page-header h1 { /* Added specific color for the subject title */
+             color: var(--math-dark); /* Using Math dark color for title */
+             font-weight: 800; font-size: 2.5rem;
+             flex-grow: 1; text-align: center; margin-right: 30px;
+         }
+          /* Add subject icon next to the title */
+         .page-header h1 i {
+             margin-left: 10px; /* Space between icon and text in RTL */
+             color: var(--math-color); /* Using Math color for icon */
+         }
+         .page-header div { width: 150px; } /* Keep space balancing div */
+
+
+        /* --- Subject Lessons Content Styling --- */
+        .subject-lessons-content {
+            margin-top: 40px;
+            text-align: right; /* Align text right */
+        }
+
+        .subject-lessons-content h2 { /* Semester Titles */
+            font-size: 1.8rem;
+            color: var(--primary-dark); /* Or could use subject color */
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed hsla(var(--primary-hue), 15%, 75%, 0.5); /* Dashed separator */
+        }
+         .subject-lessons-content h2 i {
+             margin-left: 10px; /* Space after icon in RTL */
+         }
+
+
+        .subject-lessons-content ol { /* Ordered list for lessons */
+            list-style: none; /* Remove default numbering */
+            counter-reset: lesson-counter; /* Initialize counter */
+            padding: 0;
+            margin: 0;
+        }
+
+        .subject-lessons-content ol li { /* Individual Lesson Item */
+            counter-increment: lesson-counter; /* Increment counter for each li */
+            background-color: var(--glass-light); /* Light glass background */
+            padding: 20px 30px;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid hsla(0, 0%, 100%, 0.6);
+            box-shadow: 0 3px 10px var(--shadow-light);
+            margin-bottom: 15px; /* Space between lessons */
+            line-height: 1.7;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out; /* Animation */
+
+            /* Initial state for scroll animation */
+            opacity: 0;
+            transform: translateY(20px);
+        }
+         /* State when lesson item is visible (added by JS observer) */
+        .subject-lessons-content ol li.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+         /* Add staggered delay using data attribute if needed, or handle in JS */
+         /* ol li.is-visible[data-delay="1"] { transition-delay: 0.1s; } */
+         /* ol li.is-visible[data-delay="2"] { transition-delay: 0.2s; } */
+         /* etc. Staggering is handled in the JS below */
+
+
+        .subject-lessons-content ol li::before { /* Custom list numbering */
+            content: counter(lesson-counter) ". "; /* Display counter followed by dot and space */
+            font-weight: 700;
+            color: var(--math-dark); /* Use subject dark color for numbers */
+            margin-left: 10px; /* Space after number in RTL */
+             font-size: 1.1rem;
+        }
+
+        .subject-lessons-content ol li strong { /* Lesson Title */
+            color: var(--text-dark); /* Use standard text color */
+            font-weight: 700;
+             font-size: 1.1rem;
+        }
+
+        .subject-lessons-content ol li p { /* Lesson Description */
+            color: var(--text-muted);
+            margin-top: 8px; /* Space between title and description */
+             margin-bottom: 0;
+             font-size: 0.95rem;
+        }
+
+         /* Style for separator lines between semesters */
+        .semester-separator {
+            border: none;
+            height: 1px;
+            background-color: hsla(var(--primary-hue), 15%, 75%, 0.5);
+            margin: 40px 0;
+             width: 80%; /* Make separator narrower */
+             margin-left: auto; /* Center separator in RTL */
+             margin-right: auto;
+        }
+
+
+        /* --- Responsive Adjustments (Copied and adapted) --- */
+        @media (max-width: 900px) {
+             .lessons-container { max-width: 700px; padding: 40px 40px 50px 40px;}
+             .subject-lessons-content h2 { font-size: 1.6rem; }
+             .subject-lessons-content ol li { padding: 18px 25px; }
+             .subject-lessons-content ol li strong { font-size: 1.05rem; }
+             .subject-lessons-content ol li p { font-size: 0.9rem; }
+        }
+
+        @media (max-width: 768px) {
+            .lessons-container { padding: 30px 30px 40px 30px; margin-top: 70px; }
+            .page-header h1 { font-size: 2rem; margin-right: 20px; }
+            .page-header h1 i { font-size: 1.8rem;}
+            .page-header .back-link { font-size: 1.1rem; gap: 6px;}
+            .subject-lessons-content { margin-top: 30px; }
+            .subject-lessons-content h2 { font-size: 1.5rem; margin-top: 25px; margin-bottom: 15px;}
+            .subject-lessons-content ol li { padding: 15px 20px; margin-bottom: 12px; }
+            .subject-lessons-content ol li::before { font-size: 1rem; }
+            .subject-lessons-content ol li strong { font-size: 1rem; }
+            .subject-lessons-content ol li p { font-size: 0.9rem; }
+            /* Profile Responsive */
+            .profile-section { top: 15px; right: 15px; padding: 6px 10px; gap: 8px; }
+            .profile-icon i { font-size: 1.4rem; width: 30px; height: 30px; }
+            .profile-name { font-size: 0.9rem; max-width: 100px; }
+             /* Notification Bell responsive */
+            .notification-bell i { font-size: 1rem; }
+            .notification-count { font-size: 0.6rem; min-width: 15px; padding: 0px 4px; top: 2px; right: -3px;}
+        }
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .lessons-container { padding: 25px 20px 30px 20px; margin-top: 75px; }
+            .page-header { flex-direction: column; align-items: flex-start; gap: 15px;}
+            .page-header h1 { font-size: 1.8rem; text-align: right; width: 100%; margin-right: 0; }
+             .page-header h1 i { font-size: 1.6rem;}
+            .page-header .back-link { margin-bottom: 10px; }
+            .page-header div { width: auto; } /* Remove fixed width on small screens */
+            .subject-lessons-content h2 { font-size: 1.4rem; }
+            .subject-lessons-content ol li { padding: 12px 15px; margin-bottom: 10px; }
+             .subject-lessons-content ol li::before { font-size: 0.95rem; margin-left: 8px;}
+             .subject-lessons-content ol li strong { font-size: 0.95rem; }
+             .subject-lessons-content ol li p { font-size: 0.85rem; }
+             .semester-separator { margin: 30px 0; }
+            /* Profile Responsive */
+            .profile-section { gap: 5px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Profile Section (Fixed Position - Copied) -->
+    <div id="profile-section" class="profile-section">
+         <div class="profile-icon"> <i class="fa-solid fa-circle-user"></i> </div>
+         <span id="profile-name" class="profile-name">اسم المستخدم</span>
+         <!-- Notification Bell Element (Copied) -->
+         <div id="notification-bell" class="notification-bell" aria-label="الإشعارات">
+             <i class="fa-solid fa-bell"></i>
+             <span id="notification-count" class="notification-count">3</span> <!-- Placeholder count -->
+         </div>
+         <button id="logout-button" class="logout-button" aria-label="تسجيل الخروج"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </button>
+    </div>
+
+
+    <div class="lessons-container"> <!-- Using a similar container style -->
+        <header class="page-header"> <!-- Page specific header -->
+             <a href="lessons.html" class="back-link"> <!-- Link back to the main lessons page -->
+                 <i class="fa-solid fa-arrow-right"></i> <!-- Arrow pointing left in RTL -->
+                 <span>العودة لصفحة المراجعة</span>
+             </a>
+             <h1><i class="fa-solid fa-calculator"></i> دروس مادة الرياضيات</h1> <!-- Specific Title & Icon -->
+             <div></div> <!-- Empty div to balance flexbox with back link -->
+        </header>
+
+        <!-- Subject Lessons Content -->
+        <div class="subject-lessons-content">
+
+            <h2><i class="fa-solid fa-book"></i> دروس الدورة الأولى</h2> <!-- Semester Title -->
+            <ol>
+                <li class="lesson-item">
+                    <strong>1. النشر والتعميل</strong>
+                    <p>تعلم كيفية توسيع العبارات الجبرية باستخدام قواعد النشر والتعميل.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>2. الجذور المربعة</strong>
+                    <p>دراسة الجذور المربعة وطرق حسابها وتطبيقاتها.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>3. القوى</strong>
+                    <p>فهم مفهوم القوى وقواعد حسابها.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>4. الترتيب والعمليات</strong>
+                    <p>ترتيب العمليات الحسابية وتنفيذها وفقًا للأسبقية.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>5. مبرهنة فيتاغورس</strong>
+                    <p>دراسة العلاقة بين أطوال أضلاع مثلث قائم الزاوية.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>6. مبرهنة طاليس</strong>
+                    <p>فهم مبرهنة طاليس وتطبيقاتها في الهندسة.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>7. الحساب المثلثي</strong>
+                    <p>تعلم طرق حساب المتوسطات والنسب المئوية.</p> <!-- Note: The description "حساب المتوسطات والنسب المئوية" seems more related to Statistics, not Trigonometry (الحساب المثلثي). You might want to correct the description if this is Trigonometry. I'll keep it as provided. -->
+                </li>
+                 <li class="lesson-item">
+                    <strong>8. الزوايا المركزية والزوايا المحيطية</strong>
+                    <p>دراسة الزوايا في الدائرة وخصائصها.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>9. المثلثات المتقايسة والمثلثات المتشابهة</strong>
+                    <p>فهم خصائص المثلثات المتقايسة والمثلثات المتشابهة.</p>
+                </li>
+            </ol>
+
+            <hr class="semester-separator"> <!-- Separator line -->
+
+            <h2><i class="fa-solid fa-book-open-reader"></i> دروس الدورة الثانية</h2> <!-- Semester Title -->
+            <ol>
+                 <li class="lesson-item">
+                    <strong>1. المعادلات والمتراجحات</strong>
+                    <p>حل المعادلات والمتراجحات من الدرجة الأولى.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>2. المتجهات والإزاحة</strong>
+                    <p>دراسة المتجهات وعمليات الإزاحة في المستوى.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>3. الدالة الخطية والدالة التآلفية</strong>
+                    <p>فهم خصائص الدوال الخطية والتآلفية.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>4. المعلم في المستوى</strong>
+                    <p>دراسة المعلم الديكارتي واستخدامه في تمثيل النقاط.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>5. إحداثيتا نقطة وإحداثيات متجهة</strong>
+                    <p>فهم مفهوم الإحداثيات وكيفية تحديدها.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>6. معادلة مستقيم</strong>
+                    <p>دراسة معادلة المستقيم وكيفية تمثيله.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>7. النظمات</strong>
+                    <p>فهم النظمات وحلها.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>8. نظمة معادلتين من الدرجة الأولى بمجهولين</strong>
+                    <p>حل النظمات باستخدام طرق مختلفة.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>9. الهندسة الفضائية</strong>
+                    <p>دراسة الأشكال الهندسية في الفضاء وحساب الحجوم.</p>
+                </li>
+                 <li class="lesson-item">
+                    <strong>10. الإحصاء</strong>
+                    <p>جمع وتحليل البيانات باستخدام مقاييس مركزية.</p>
+                </li>
+            </ol>
+
+        </div> <!-- End subject-lessons-content -->
+
+    </div> <!-- End lessons-container -->
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Profile & Logout Logic (Copied) ---
+            const profileSection = document.getElementById('profile-section');
+            const profileNameElement = document.getElementById('profile-name');
+            const logoutButton = document.getElementById('logout-button');
+            let loggedInUser = null;
+            try { loggedInUser = sessionStorage.getItem('loggedInUser'); } catch(e) { console.error("Failed to read sessionStorage:", e); }
+
+            if (loggedInUser && profileSection && profileNameElement) {
+                profileNameElement.textContent = loggedInUser;
+                profileSection.classList.add('visible');
+            } else { if (profileSection) profileSection.classList.remove('visible'); }
+
+            if (logoutButton) {
+                logoutButton.addEventListener('click', () => {
+                    try { sessionStorage.removeItem('loggedInUser'); } catch (e) { console.error("Failed to remove item from sessionStorage:", e); }
+                    window.location.href = 'login.html';
+                });
+            }
+
+             // --- Notification Bell Logic (Copied) ---
+            const notificationBell = document.getElementById('notification-bell');
+            const notificationCount = document.getElementById('notification-count');
+
+            let unreadCount = 3; // Example count - replace with actual logic
+            if (notificationCount) {
+                if (unreadCount > 0) {
+                    notificationCount.textContent = unreadCount;
+                    notificationCount.classList.add('visible');
+                } else {
+                    notificationCount.classList.remove('visible');
+                }
+            }
+
+            if (notificationBell) {
+                 notificationBell.addEventListener('click', () => {
+                     alert('سيتم عرض الإشعارات هنا قريباً!'); // Placeholder action
+                     unreadCount = 0;
+                     if (notificationCount) {
+                         notificationCount.textContent = unreadCount;
+                         notificationCount.classList.remove('visible');
+                     }
+                 });
+            }
+
+            // --- Scroll Animation Logic (using Intersection Observer) --- /* Added for lesson items */
+            const lessonItems = document.querySelectorAll('.lesson-item');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add animation class with a slight delay based on item index
+                        const index = Array.from(lessonItems).indexOf(entry.target);
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, index * 50); // Stagger delay by 50ms per item
+
+                        // Stop observing once visible
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            lessonItems.forEach(item => {
+                observer.observe(item);
+            });
+
+
+            // --- PWA: Register Service Worker (Copied) ---
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(registration => {
+                            console.log('Service Worker registered:', registration);
+                        })
+                        .catch(error => {
+                            console.error('Service Worker registration failed:', error);
+                        });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>

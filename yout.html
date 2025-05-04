@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قنوات تعليمية مميزة</title>
+    <!-- رابط مكتبة Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- رابط خط Google Fonts (Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- تنسيقات CSS مستوحاة من التصميم المطلوب (مضمنة في HTML) -->
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            direction: rtl; /* الاتجاه من اليمين لليسار */
+            text-align: right; /* محاذاة النص لليمين */
+            background-color: #1a1a1a; /* خلفية داكنة */
+            color: #ffffff; /* لون نص فاتح */
+        }
+
+        .container {
+            max-width: 1000px; /* عرض أقصى للمحتوى */
+            margin: 20px auto; /* توسيط المحتوى */
+            padding: 0 20px; /* مسافة داخلية على الجوانب */
+        }
+
+        header {
+            background-color: rgba(26, 26, 26, 0.9); /* خلفية هيدر شبه شفافة داكنة */
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            position: sticky; /* تثبيت الهيدر */
+            top: 0;
+            z-index: 100;
+            /* backdrop-filter: blur(5px); /* تأثير ضبابي - قد لا يعمل في كل المتصفحات بدون CSS خارجي */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* ظل بسيط للنص */
+        }
+
+        h2 {
+             text-align: center;
+             color: #cccccc;
+             margin-bottom: 40px;
+             font-size: 1.5em;
+             position: relative;
+             padding-bottom: 10px;
+        }
+        h2::after {
+             content: '';
+             position: absolute;
+             bottom: 0;
+             right: 50%;
+             transform: translateX(50%);
+             width: 80px;
+             height: 3px;
+             background-color: #e50914; /* لون مميز */
+             border-radius: 2px;
+        }
+
+
+        .channel-card {
+            background-color: rgba(40, 40, 40, 0.8); /* خلفية البطاقة شبه شفافة داكنة */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            overflow: hidden; /* للتأكد من أن الصورة لا تخرج من الحدود إذا كانت كبيرة */
+            position: relative; /* لوضع عناصر مطلقة داخلها */
+            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+             /* قد تحتاج تأثيرات أخرى مثل glow باستخدام CSS متقدم */
+        }
+
+
+        .channel-avatar {
+            width: 90px; /* تكبير الصورة قليلاً */
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 4px solid #e50914; /* إطار بلون مميز */
+             box-shadow: 0 0 10px rgba(229, 9, 20, 0.5); /* ظل متوهج بسيط */
+        }
+
+        .channel-info {
+            flex-grow: 1;
+            /* text-align: right; */
+            position: relative; /* لوضع النص فوق الصورة إن لزم الأمر في تصاميم معقدة */
+            z-index: 1; /* التأكد من أن النص فوق الخلفية/الصورة */
+        }
+
+        .channel-info h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.4em; /* تكبير الخط */
+            color: #03dac6; /* لون مميز للعناوين */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .channel-info p {
+            margin: 0 0 5px 0;
+            font-size: 0.95em;
+            color: #bbbbbb; /* لون نص ثانوي فاتح */
+        }
+
+        .channel-info .stats i {
+            margin-left: 5px;
+            color: #bb86fc; /* لون مميز للأيقونات */
+        }
+
+        .rating {
+            color: #ffc107; /* لون ذهبي للنجوم */
+            font-size: 1.2em; /* تكبير النجوم */
+            margin-bottom: 10px;
+        }
+
+        .rating i {
+            margin-left: 3px; /* مسافة بين النجوم */
+        }
+
+        .level {
+            font-size: 0.85em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            white-space: nowrap;
+             font-weight: bold;
+        }
+         .level.golden {
+            background-color: #ffc107; /* ذهبي */
+            color: #333;
+        }
+         .level.silver {
+            background-color: #cccccc; /* فضي */
+            color: #333;
+        }
+         .level.beginner {
+            background-color: #666666; /* لون داكن للمبتدئ */
+            color: #ffffff;
+        }
+
+
+        .channel-buttons {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+            z-index: 1; /* التأكد من أن الأزرار فوق الخلفية/الصورة */
+        }
+
+        .channel-buttons a {
+            display: inline-block;
+            padding: 12px 20px; /* تكبير الأزرار */
+            border-radius: 25px; /* حواف دائرية للأزرار */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            text-align: center;
+            white-space: nowrap;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .channel-buttons a:hover {
+            transform: translateY(-2px); /* انزياح بسيط عند التحويم */
+        }
+
+
+        .subscribe-button {
+            background-color: #e50914; /* لون أحمر داكن (مستوحى) */
+            color: white;
+             box-shadow: 0 2px 5px rgba(229, 9, 20, 0.3);
+        }
+
+         .subscribe-button:hover {
+             background-color: #b20710; /* لون أحمر أغمق عند التحويم */
+         }
+
+
+        .subscribe-button i {
+            margin-right: 8px; /* مسافة أكبر للأيقونة */
+        }
+
+        .view-channel-button {
+            background-color: #4a4a4a; /* لون رمادي داكن */
+            color: #eeeeee;
+            border: 1px solid #666666;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+         .view-channel-button:hover {
+             background-color: #333333; /* لون رمادي أغمق عند التحويم */
+         }
+
+         .view-channel-button i {
+             margin-right: 8px;
+         }
+
+
+        .divider {
+            border: none;
+            border-top: 1px solid #444444; /* فاصل بلون أفتح على الخلفية الداكنة */
+            margin: 35px 0;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* زر الرجوع للأعلى - تنسيقات للمظهر والموضع */
+        #back-to-top {
+            display: none; /* مخفي افتراضياً - يتطلب JS لإظهاره بناءً على التمرير */
+            position: fixed; /* تثبيت الموضع */
+            bottom: 25px; /* المسافة من الأسفل */
+            right: 25px; /* المسافة من اليمين */
+            z-index: 999; /* ليبقى فوق معظم العناصر */
+            border: none;
+            outline: none;
+            background-color: #007bff; /* لون أزرق مميز */
+            color: white;
+            cursor: pointer;
+            padding: 12px 18px;
+            border-radius: 50%; /* شكل دائري */
+            font-size: 1.3em;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+
+        #back-to-top:hover {
+            background-color: #0056b3;
+            opacity: 0.9;
+        }
+         #back-to-top i {
+             margin: 0; /* إزالة أي مسافة داخلية للأيقونة */
+         }
+
+
+        /* استعلام الوسائط للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+                margin-bottom: 30px;
+            }
+            h2::after {
+                width: 60px;
+            }
+            .channel-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+                gap: 15px;
+            }
+            .channel-avatar {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 10px;
+            }
+            .channel-info {
+                width: 100%; /* المعلومات تأخذ العرض الكامل */
+                margin-bottom: 15px;
+            }
+             .channel-info h3 {
+                 font-size: 1.2em;
+             }
+             .channel-info p {
+                 font-size: 0.9em;
+             }
+
+            .channel-buttons {
+                width: 100%;
+                flex-direction: row; /* الأزرار جنبًا إلى جنب */
+                justify-content: center;
+                gap: 10px;
+            }
+            .channel-buttons a {
+                 flex-grow: 1;
+                 padding: 10px;
+                 font-size: 0.9em;
+                 border-radius: 20px;
+            }
+             .divider {
+                 margin: 25px auto;
+                 width: 90%;
+             }
+             #back-to-top {
+                 bottom: 15px;
+                 right: 15px;
+                 padding: 10px 15px;
+                 font-size: 1.1em;
+             }
+        }
+
+        @media (max-width: 480px) {
+             header { padding: 10px; }
+             header h1 { font-size: 1.3em; }
+             h2 { font-size: 1.2em; margin-bottom: 25px; }
+             h2::after { width: 50px; }
+             .channel-card { padding: 10px; gap: 10px; }
+             .channel-avatar { width: 60px; height: 60px; margin-bottom: 8px; }
+             .channel-info { margin-bottom: 10px; }
+             .channel-info h3 { font-size: 1.1em; }
+             .channel-info p { font-size: 0.8em; }
+             .rating { font-size: 0.9em; margin-bottom: 5px; }
+             .level { font-size: 0.75em; padding: 2px 6px; }
+             .channel-buttons { gap: 5px; }
+             .channel-buttons a { padding: 8px; font-size: 0.8em; border-radius: 15px; }
+             .divider { margin: 20px auto; }
+             #back-to-top { bottom: 10px; right: 10px; padding: 8px 12px; font-size: 1em; }
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>قنوات تعليمية مميزة</h1>
+    </header>
+
+    <main class="container">
+
+        <!-- القنوات مرتبة حسب الظهور في آخر صور قدمتها -->
+
+        <!-- Channel 1: الفيزياء ببساطة (الصورة 15) -->
+        <div class="channel-card">
+            <img src="15.jpg" alt="الفيزياء ببساطة Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>الفيزياء ببساطة</h3>
+                <p class="username">@الفيزياءببساطة-ظ7ك</p>
+                <p class="stats"><i class="fas fa-users"></i> 367 ألف مشترك • <i class="fas fa-video"></i> 1.1 ألف من الفيديوهات</p>
+                <div class="rating">
+                    <!-- تقييم افتراضي: 4 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                     <!-- يمكنك إضافة مستوى هنا إذا أردت، مثلا: <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+            <div class="channel-buttons">
+                 <a href="https://www.youtube.com/@الفيزياءببساطة-ظ7ك" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+         <!-- Channel 2: قناة كوثر التعليمية (الصورة 1) -->
+        <div class="channel-card">
+            <img src="1.jpg" alt="قناة كوثر التعليمية Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>قناة كوثر التعليمية</h3>
+                <p class="username">@Educatrice_Kaoutar</p>
+                <p class="stats"><i class="fas fa-users"></i> 833 ألف مشترك • <i class="fas fa-video"></i> 1.2 ألف من الفيديوهات</p>
+                <div class="rating">
+                     <!-- تقييم افتراضي: 4.5 نجوم -->
+                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                      <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@Educatrice_Kaoutar" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                <a href="https://www.youtube.com/@Educatrice_Kaoutar" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+        <!-- Channel 3: A7med - الفيزياء ببساطة (الصورة 16) -->
+        <div class="channel-card">
+            <img src="16.jpg" alt="A7med - الفيزياء ببساطة Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>A7med - الفيزياء ببساطة</h3>
+                <p class="username">@-a7medtorkey463</p>
+                <p class="stats"><i class="fas fa-users"></i> 6.57 ألف مشترك • <i class="fas fa-video"></i> 177 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 3 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level beginner">مستوى: مبتدئ</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@-a7medtorkey463" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+        <!-- Channel 4: bachir science (الصورة 13) -->
+        <div class="channel-card">
+            <img src="13.jpg" alt="bachir science Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>bachir science</h3>
+                <p class="username">@profdibmohamedbachir</p>
+                <p class="stats"><i class="fas fa-users"></i> 415 ألف مشترك • <i class="fas fa-video"></i> 48 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 4 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@profdibmohamedbachir" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                 <a href="https://www.youtube.com/@profdibmohamedbachir" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+         <!-- Channel 5: abdo_math (الصورة 14) -->
+        <div class="channel-card">
+            <img src="14.jpg" alt="abdo_math Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>abdo_math</h3>
+                <p class="username">@abdo_math</p>
+                <p class="stats"><i class="fas fa-users"></i> 93.4 ألف مشترك • <i class="fas fa-video"></i> 303 فيديوهات</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 4 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@abdo_math" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+        <!-- Channel 6: آستاذ العلوم (الصورة 4) -->
+        <div class="channel-card">
+            <img src="4.jpg" alt="آستاذ العلوم Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>آستاذ العلوم</h3>
+                <p class="username">@scienceprof-u6e</p>
+                <p class="stats"><i class="fas fa-users"></i> 50 مشترك • <i class="fas fa-video"></i> 19 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 2 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level beginner">مستوى: مبتدئ</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@scienceprof-u6e" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                <a href="https://www.youtube.com/@scienceprof-u6e" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+         <!-- Channel 7: Prof Mounir science (الصورة 3) -->
+        <div class="channel-card">
+            <img src="3.jpg" alt="Prof Mounir science Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>Prof Mounir science</h3>
+                <p class="username">@profmounirscience115</p>
+                <p class="stats"><i class="fas fa-users"></i> 11.8 ألف مشترك • <i class="fas fa-video"></i> 46 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 3 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level beginner">مستوى: مبتدئ</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@profmounirscience115" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                 <a href="https://www.youtube.com/@profmounirscience115" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+          <!-- Channel 8: الفيزياء مع الأستاذ عبد الله (الصورة 2) -->
+        <div class="channel-card">
+            <img src="2.jpg" alt="الفيزياء مع الأستاذ عبد الله Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>الفيزياء مع الأستاذ عبد الله</h3>
+                <p class="username">@prof_Abdellah</p>
+                <p class="stats"><i class="fas fa-users"></i> 113 ألف مشترك • <i class="fas fa-video"></i> 22 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 3 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@prof_Abdellah" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                 <a href="https://www.youtube.com/@prof_Abdellah" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+        <!-- Channel 9: prof Issam Eddine science الاستاذ عصام الدين علوم (الصورة 12) -->
+        <div class="channel-card">
+            <img src="12.jpg" alt="prof Issam Eddine science الاستاذ عصام الدين علوم Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>prof Issam Eddine science الاستاذ عصام الدين علوم</h3>
+                <p class="username">@Prof.issam.sc09</p>
+                <p class="stats"><i class="fas fa-users"></i> 27.2 ألف مشترك • <i class="fas fa-video"></i> 23 فيديو</p>
+                 <div>
+                    <!-- تقييم افتراضي: 3 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level beginner">مستوى: مبتدئ</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@Prof.issam.sc09" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                <a href="https://www.youtube.com/@Prof.issam.sc09" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+
+         <!-- Channel 10: الأستاذ شريفي عربية (الصورة 10) -->
+        <div class="channel-card">
+            <img src="10.jpg" alt="الأستاذ شريفي عربية Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>الأستاذ شريفي عربية</h3>
+                <p class="username">@الاستاذشريفي</p>
+                <p class="stats"><i class="fas fa-users"></i> 649 ألف مشترك • <i class="fas fa-video"></i> 209 فيديوهات</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 4 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@الاستاذشريفي" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                 <a href="https://www.youtube.com/@الاستاذشريفي" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+         <!-- Channel 11: الأستاذ بوبكر مبروك اللغة العربية (الصورة 18) -->
+        <div class="channel-card">
+            <img src="18.jpg" alt="الأستاذ بوبكر مبروك اللغة العربية Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>الأستاذ بوبكر مبروك اللغة العربية</h3>
+                <p class="username">@mabrouk_boubaker</p>
+                <p class="stats"><i class="fas fa-users"></i> 1.8 مليون مشترك • <i class="fas fa-video"></i> 667 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 5 نجوم (ذهبي) -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                     <span class="level golden">مستوى: ذهبي</span>
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@mabrouk_boubaker" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+                <a href="https://www.youtube.com/@mabrouk_boubaker" target="_blank" class="view-channel-button"><i class="fas fa-external-link-alt"></i> تصفح القناة</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+         <!-- Channel 12: العلم النافع ببساطة (الصورة 20) -->
+        <div class="channel-card">
+            <img src="20.jpg" alt="العلم النافع ببساطة Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>العلم النافع ببساطة</h3>
+                <p class="username">@العلمالنافعببساطة</p>
+                <p class="stats"><i class="fas fa-users"></i> 199 ألف مشترك • <i class="fas fa-video"></i> 713 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 4 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                      <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@العلمالنافعببساطة" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+        <hr class="divider">
+
+         <!-- Channel 13: Ostadi Ma3i | أستاذي معي (الصورة 7) -->
+        <div class="channel-card">
+            <img src="7.jpg" alt="Ostadi Ma3i | أستاذي معي Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>Ostadi Ma3i | أستاذي معي</h3>
+                <p class="username">@profelwardi1571</p>
+                <p class="stats"><i class="fas fa-users"></i> 243 ألف مشترك • <i class="fas fa-video"></i> 296 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 4 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level silver">مستوى: فضي</span> -->
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@profelwardi1571" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+         <!-- Channel 14: Prof issam math - أستاذ عصام رياضيات (الصورة 6) -->
+        <div class="channel-card">
+            <img src="6.jpg" alt="Prof issam math - أستاذ عصام رياضيات Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>Prof issam math - أستاذ عصام رياضيات</h3>
+                <p class="username">@profissam</p>
+                <p class="stats"><i class="fas fa-users"></i> 24.2 ألف مشترك • <i class="fas fa-video"></i> 104 فيديوهات</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 3 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level beginner">مستوى: مبتدئ</span> -->
+                </div>
+            </div>
+            <div class="channel-buttons">
+                <a href="https://www.youtube.com/@profissam" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+         <!-- Channel 15: الاستاذ حمياني للفيزياء (الصورة 9) -->
+        <div class="channel-card">
+            <img src="9.jpg" alt="الاستاذ حمياني للفيزياء Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>الاستاذ حمياني للفيزياء</h3>
+                <p class="username">@hamianiphysique</p>
+                <p class="stats"><i class="fas fa-users"></i> 2.65 مليون مشترك • <i class="fas fa-video"></i> 861 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 5 نجوم (ذهبي) -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                     <span class="level golden">مستوى: ذهبي</span>
+                </div>
+            </div>
+             <div class="channel-buttons">
+                <a href="https://www.youtube.com/@hamianiphysique" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+         <hr class="divider">
+
+        <!-- Channel 16: rabie's life (الصورة 5) -->
+        <div class="channel-card">
+            <img src="5.jpg" alt="rabie's life Profile Picture" class="channel-avatar">
+            <div class="channel-info">
+                <h3>rabie's life</h3>
+                <p class="username">@rabieslife</p>
+                <p class="stats"><i class="fas fa-users"></i> 55.6 ألف مشترك • <i class="fas fa-video"></i> 97 فيديو</p>
+                 <div class="rating">
+                     <!-- تقييم افتراضي: 3 نجوم -->
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                     <!-- <span class="level beginner">مستوى: مبتدئ</span> -->
+                </div>
+                 <!-- يمكنك إضافة وصف هنا إذا أردت -->
+                <!-- <p class="description">مهتم انك تحسن حياتك و قرايتك و صحتك و بشكل عام؟ ......المزيد هنا!👍</p> -->
+            </div>
+            <div class="channel-buttons">
+                <a href="https://www.youtube.com/@rabieslife" target="_blank" class="subscribe-button"><i class="fab fa-youtube"></i> اشتراك</a>
+            </div>
+        </div>
+        <!-- لا يوجد فاصل بعد الأخير -->
+
+    </main>
+
+    <!-- زر الرجوع للأعلى - ملاحظة: هذا الزر يتطلب JavaScript لكي يعمل بشكل تفاعلي (يظهر عند التمرير ويتجه للأعلى عند النقر) -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+
+</body>
+</html>

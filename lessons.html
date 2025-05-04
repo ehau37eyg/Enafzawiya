@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دروس مراجعة الجهوي - بوابة مدرسة النفزاوية</title>
+    <!-- PWA: Manifest Link -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Google Font Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Variables & Base Styles (Copied from index.html) --- */
+        :root {
+            --primary-hue: 210; /* Blue */
+            --secondary-hue: 260; /* Purple */
+            --accent-hue: 30;     /* Orange/Gold */
+            --youtube-hue: 350;   /* Red (closer to YouTube color) */
+            --lessons-hue: 150;   /* Green */ /* Added for Lessons section */
+
+            --primary-color: hsl(var(--primary-hue), 90%, 60%);
+            --primary-dark: hsl(var(--primary-hue), 80%, 50%);
+            --primary-light: hsl(var(--primary-hue), 90%, 96%);
+
+            --secondary-color: hsl(var(--secondary-hue), 70%, 65%);
+            --accent-color: hsl(var(--accent-hue), 95%, 60%);
+            --accent-dark: hsl(var(--accent-hue), 90%, 50%);
+
+            --youtube-color: hsl(var(--youtube-hue), 90%, 50%); /* Standard YouTube red */
+            --youtube-dark: hsl(var(--youtube-hue), 85%, 40%); /* Darker red */
+            --youtube-light: hsl(var(--youtube-hue), 90%, 95%); /* Light red background */
+
+            --lessons-color: hsl(var(--lessons-hue), 70%, 50%); /* Added lessons color */
+            --lessons-dark: hsl(var(--lessons-hue), 65%, 40%); /* Added lessons dark color */
+
+
+            --text-dark: hsl(var(--primary-hue), 20%, 25%);
+            --text-light: hsl(0, 0%, 100%);
+            --text-muted: hsl(var(--primary-hue), 15%, 55%);
+
+            --glass-bg: hsla(0, 0%, 100%, 0.55);
+            --glass-border: hsla(0, 0%, 100%, 0.7);
+            --glass-light: hsla(0, 0%, 100%, 0.8); /* Slightly more opaque glass for cards */
+
+
+            --shadow-color: hsla(var(--primary-hue), 40%, 50%, 0.2);
+            --shadow-strong-color: hsla(var(--primary-hue), 40%, 50%, 0.35);
+             --shadow-light: hsla(var(--primary-hue), 20%, 40%, 0.1); /* Lighter shadow for cards */
+
+
+            --font-family: 'Cairo', sans-serif;
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 10px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; } /* Smooth scrolling */
+        body {
+            font-family: var(--font-family); direction: rtl; background: linear-gradient(135deg, hsl(190, 80%, 70%), hsl(var(--secondary-hue), 80%, 75%)); background-attachment: fixed;
+            display: flex; flex-direction: column; /* Allow scrolling */ justify-content: flex-start; /* Align to top */ align-items: center; min-height: 100vh; padding: 25px; color: var(--text-dark); font-size: 16px; overflow-x: hidden;
+        }
+
+        /* --- Profile Section (Copied from index.html) --- */
+        .profile-section {
+            position: fixed; /* Fixed position */
+            top: 25px;
+            right: 30px; /* Position top-right */
+            display: flex; align-items: center; gap: 12px; background: hsla(0, 0%, 100%, 0.65); padding: 8px 15px; border-radius: 50px; border: 1px solid var(--glass-border); box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s linear 0.5s; z-index: 100; /* Ensure it's above content */
+        }
+         .profile-section.visible { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s linear 0s; }
+         .profile-icon i { font-size: 1.6rem; color: var(--primary-dark); background-color: var(--primary-light); border-radius: 50%; padding: 5px; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; }
+         .profile-name { font-weight: 600; font-size: 0.95rem; color: var(--text-dark); max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+         /* --- Notification Bell Styles (Copied from index.html) --- */
+         .notification-bell {
+             position: relative;
+             cursor: pointer;
+             color: var(--text-muted); /* Default color */
+             transition: color 0.2s ease;
+             padding: 5px; /* Make area clickable */
+             margin-left: -5px; /* Adjust spacing slightly */
+         }
+         .notification-bell i {
+             font-size: 1.1rem;
+         }
+         .notification-bell:hover {
+             color: var(--accent-dark); /* Highlight on hover */
+         }
+         .notification-count {
+             position: absolute;
+             top: 0px; right: -5px;
+             background-color: hsl(var(--youtube-hue), 80%, 50%);
+             color: var(--text-light);
+             font-size: 0.7rem;
+             font-weight: 700;
+             border-radius: 50%;
+             padding: 1px 5px;
+             min-width: 18px;
+             text-align: center;
+             line-height: 1.2;
+             border: 1px solid white;
+             opacity: 0;
+             transform: scale(0.8);
+             transition: opacity 0.3s ease, transform 0.3s ease;
+         }
+         .notification-count.visible {
+             opacity: 1;
+             transform: scale(1);
+         }
+
+
+         .logout-button { background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; margin-right: -5px; padding: 5px; transition: color 0.2s ease; }
+         .logout-button:hover { color: hsl(var(--youtube-hue), 70%, 50%); }
+
+
+        /* --- Lessons Page Container --- */
+        .lessons-container { /* Reusing landing-container styles */
+            background: var(--glass-bg); backdrop-filter: blur(15px) saturate(150%); -webkit-backdrop-filter: blur(15px) saturate(150%);
+            padding: 40px 50px 50px 50px; border-radius: var(--border-radius-lg); box-shadow: 0 12px 40px var(--shadow-color);
+            max-width: 900px; width: 100%; text-align: center; border: 1px solid var(--glass-border);
+            position: relative; margin-top: 60px; margin-bottom: 30px;
+             /* No initial animation needed here, it's a full page */
+        }
+
+        /* --- Page Header (Back Button & Title) --- */
+        .page-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;
+        }
+         .page-header .back-link {
+             font-size: 1.2rem;
+             color: var(--text-muted);
+             text-decoration: none;
+             display: flex; align-items: center;
+             gap: 8px;
+             transition: color 0.2s ease;
+         }
+         .page-header .back-link:hover {
+             color: var(--primary-dark);
+         }
+         .page-header h1 {
+             color: var(--primary-dark);
+             font-weight: 800;
+             font-size: 2.5rem;
+             flex-grow: 1; /* Allow title to take space */
+             text-align: center; /* Center title */
+             margin-right: 30px; /* Push title away from back button */
+         }
+         /* Adjust header layout for RTL */
+        .page-header .back-link i { /* Ensure arrow points left in RTL */
+            transform: rotate(180deg); /* Rotate right arrow to point left */
+        }
+
+
+        /* --- Lessons Grid --- */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 25px;
+            margin-top: 40px;
+            text-align: right; /* Align text right in cards for RTL */
+        }
+
+        /* --- Lesson Card Style --- */
+        .lesson-card {
+            background-color: var(--glass-light); /* Slightly more opaque glass */
+            padding: 25px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid hsla(0, 0%, 100%, 0.6);
+            box-shadow: 0 5px 15px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out, transform 0.6s ease-out; /* Added transition for scroll animation */
+             display: flex; flex-direction: column; /* Stack content */
+
+            /* Initial state for scroll animation */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+         /* State when card is visible (added by JS observer) */
+         .lesson-card.is-visible {
+             opacity: 1;
+             transform: translateY(0);
+         }
+
+        .lesson-card:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 8px 20px hsla(var(--primary-hue), 30%, 50%, 0.15);
+        }
+
+        .lesson-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark); /* Default color */
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+         /* Specific colors for card titles */
+         .lesson-card.math-card h3 { color: var(--math-dark); }
+         .lesson-card.physics-card h3 { color: var(--physics-dark); }
+         .lesson-card.arabic-card h3 { color: var(--arabic-dark); }
+         .lesson-card.social-card h3 { color: var(--social-dark); }
+
+
+        .lesson-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+             flex-grow: 1; /* Allow paragraph to take up space */
+        }
+
+        /* Style for links inside cards */
+        .lesson-card .card-link {
+            display: inline-block; /* or block */
+            margin-top: auto; /* Push link to bottom */
+            color: var(--lessons-dark); /* Default link color */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+         /* Specific colors for card links */
+         .lesson-card.math-card .card-link { color: var(--math-dark); }
+         .lesson-card.physics-card .card-link { color: var(--physics-dark); }
+         .lesson-card.arabic-card .card-link { color: var(--arabic-dark); }
+         .lesson-card.social-card .card-link { color: var(--social-dark); }
+
+
+         .lesson-card .card-link i {
+             margin-right: 5px; /* Space between icon and text */
+         }
+         .lesson-card .card-link:hover {
+             color: var(--accent-dark); /* Highlight on hover */
+             text-decoration: underline;
+         }
+
+
+        /* --- Responsive Adjustments (Copied and adapted from index.html) --- */
+        @media (max-width: 900px) {
+             .lessons-container { max-width: 700px; padding: 40px 40px 50px 40px;}
+             .lessons-grid { gap: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .lessons-container { padding: 30px 30px 40px 30px; margin-top: 70px; }
+            .page-header h1 { font-size: 2rem; margin-right: 20px; }
+            .page-header .back-link { font-size: 1.1rem; gap: 6px;}
+            .lessons-grid { margin-top: 30px; }
+            .lesson-card h3 { font-size: 1.3rem; }
+            .lesson-card { padding: 20px; }
+             .lesson-card p { font-size: 0.9rem; }
+             /* Profile Responsive */
+            .profile-section { top: 15px; right: 15px; padding: 6px 10px; gap: 8px; }
+            .profile-icon i { font-size: 1.4rem; width: 30px; height: 30px; }
+            .profile-name { font-size: 0.9rem; max-width: 100px; }
+             /* Notification Bell responsive */
+            .notification-bell i { font-size: 1rem; }
+            .notification-count { font-size: 0.6rem; min-width: 15px; padding: 0px 4px; top: 2px; right: -3px;}
+        }
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .lessons-container { padding: 25px 20px 30px 20px; margin-top: 75px; }
+            .page-header { flex-direction: column; align-items: flex-start; gap: 15px;} /* Stack header items */
+            .page-header h1 { font-size: 1.8rem; text-align: right; width: 100%; margin-right: 0; } /* Center title on small screens */
+             .page-header .back-link { margin-bottom: 10px; } /* Space below back link */
+            .lessons-grid { gap: 15px; }
+            .lesson-card h3 { font-size: 1.2rem; }
+            .lesson-card { padding: 15px; }
+             .lesson-card p { font-size: 0.85rem; margin-bottom: 15px; }
+             .lesson-card .card-link { font-size: 0.9rem; }
+            /* Profile Responsive */
+            .profile-section { gap: 5px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Profile Section (Fixed Position - Copied) -->
+    <div id="profile-section" class="profile-section">
+         <div class="profile-icon"> <i class="fa-solid fa-circle-user"></i> </div>
+         <span id="profile-name" class="profile-name">اسم المستخدم</span>
+         <!-- Notification Bell Element (Copied) -->
+         <div id="notification-bell" class="notification-bell" aria-label="الإشعارات">
+             <i class="fa-solid fa-bell"></i>
+             <span id="notification-count" class="notification-count">3</span> <!-- Placeholder count -->
+         </div>
+         <button id="logout-button" class="logout-button" aria-label="تسجيل الخروج"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </button>
+    </div>
+
+
+    <div class="lessons-container"> <!-- Using a similar container style -->
+        <header class="page-header"> <!-- Page specific header -->
+             <a href="index.html" class="back-link">
+                 <i class="fa-solid fa-arrow-right"></i> <!-- Arrow pointing left in RTL -->
+                 <span>العودة للصفحة الرئيسية</span>
+             </a>
+             <h1>دروس مراجعة الجهوي</h1>
+             <div></div> <!-- Empty div to balance flexbox with back link -->
+        </header>
+
+        <!-- Lessons Grid -->
+        <div class="lessons-grid">
+
+            <!-- Lesson Card: Math -->
+            <div class="lesson-card math-card"> <!-- Added specific class for Math card -->
+                <h3>مادة الرياضيات</h3>
+                <p>مراجعة شاملة لوحدة الدوال، المتتاليات العددية، وحساب الاحتمالات.</p>
+                <a href="math.html" class="card-link"><i class="fa-solid fa-book-open"></i> ابدأ المراجعة</a> <!-- Updated link -->
+            </div>
+
+             <!-- Lesson Card: Physics & Chemistry -->
+            <div class="lesson-card physics-card"> <!-- Added specific class for Physics card -->
+                <h3>مادة الفيزياء والكيمياء</h3>
+                <p>ملخصات وتمارين في الكهرباء، الميكانيك، والكيمياء العضوية.</p>
+                <a href="physics_chemistry.html" class="card-link"><i class="fa-solid fa-book-open"></i> ابدأ المراجعة</a> <!-- Updated link -->
+            </div>
+
+             <!-- Lesson Card: Arabic -->
+            <div class="lesson-card arabic-card"> <!-- Added specific class for Arabic card -->
+                <h3>اللغة العربية</h3>
+                <p>تحليل نصوص، مكون الدرس اللغوي، ومكون التعبير والإنشاء.</p>
+                <a href="arabic.html" class="card-link"><i class="fa-solid fa-book-open"></i> ابدأ المراجعة</a> <!-- Updated link -->
+            </div>
+
+             <!-- Lesson Card: Social Studies -->
+            <div class="lesson-card social-card"> <!-- Added specific class for Social Studies card -->
+                <h3>الاجتماعيات (التاريخ والجغرافيا)</h3>
+                <p>مفاهيم أساسية، أحداث تاريخية محورية، ودراسة مجالات جغرافية.</p>
+                <a href="social_studies.html" class="card-link"><i class="fa-solid fa-book-open"></i> ابدأ المراجعة</a> <!-- Updated link -->
+            </div>
+
+            <!-- Add more lesson cards as needed -->
+
+        </div> <!-- End lessons-grid -->
+
+    </div> <!-- End lessons-container -->
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Profile & Logout Logic (Copied from index.html) ---
+            const profileSection = document.getElementById('profile-section');
+            const profileNameElement = document.getElementById('profile-name');
+            const logoutButton = document.getElementById('logout-button');
+            let loggedInUser = null;
+            try { loggedInUser = sessionStorage.getItem('loggedInUser'); } catch(e) { console.error("Failed to read sessionStorage:", e); }
+
+            if (loggedInUser && profileSection && profileNameElement) {
+                profileNameElement.textContent = loggedInUser;
+                profileSection.classList.add('visible');
+            } else { if (profileSection) profileSection.classList.remove('visible'); }
+
+            if (logoutButton) {
+                logoutButton.addEventListener('click', () => {
+                    try { sessionStorage.removeItem('loggedInUser'); } catch (e) { console.error("Failed to remove item from sessionStorage:", e); }
+                    window.location.href = 'login.html';
+                });
+            }
+
+             // --- Notification Bell Logic (Copied from index.html) ---
+            const notificationBell = document.getElementById('notification-bell');
+            const notificationCount = document.getElementById('notification-count');
+
+            // --- Simulate unread count (replace with actual logic) ---
+            let unreadCount = 3; // Example count
+            if (notificationCount) { // Check if element exists
+                if (unreadCount > 0) {
+                    notificationCount.textContent = unreadCount;
+                    notificationCount.classList.add('visible');
+                } else {
+                    notificationCount.classList.remove('visible');
+                }
+            }
+
+            if (notificationBell) { // Check if element exists
+                 notificationBell.addEventListener('click', () => {
+                     alert('سيتم عرض الإشعارات هنا قريباً!'); // Placeholder action
+                     // --- Simulate marking as read (replace with actual logic) ---
+                     unreadCount = 0;
+                     if (notificationCount) {
+                         notificationCount.textContent = unreadCount; // Optional: show 0 or empty
+                         notificationCount.classList.remove('visible');
+                     }
+                 });
+            }
+
+            // --- Scroll Animation Logic (using Intersection Observer) --- /* Added for lesson cards */
+            const lessonCards = document.querySelectorAll('.lesson-card'); // Target the cards themselves
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    // If the element is visible
+                    if (entry.isIntersecting) {
+                        // Add animation class with a slight delay based on item index
+                        const index = Array.from(lessonCards).indexOf(entry.target);
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, index * 100); // Stagger delay (e.g., 100ms)
+
+                        // Stop observing once it's visible
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                // Options for the observer
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: '0px 0px -80px 0px' // Adjust margin to trigger slightly before entering viewport fully
+            });
+
+            // Observe each lesson card
+            lessonCards.forEach(card => {
+                observer.observe(card);
+            });
+
+
+            // --- PWA: Register Service Worker (Copied from index.html) ---
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(registration => {
+                            console.log('Service Worker registered:', registration);
+                        })
+                        .catch(error => {
+                            console.error('Service Worker registration failed:', error);
+                        });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>

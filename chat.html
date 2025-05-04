@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساعد مدرسة النفزاوية المتطور</title>
+    <!-- Google Font Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Variables & Base Styles --- */
+        :root {
+            --primary-hue: 210; /* Blue */
+            --secondary-hue: 260; /* Purple */
+            /* No need for --special-action-hue anymore */
+            --primary-color: hsl(var(--primary-hue), 90%, 60%);
+            --primary-dark: hsl(var(--primary-hue), 80%, 50%);
+            --primary-light: hsl(var(--primary-hue), 90%, 96%);
+            --secondary-color: hsl(var(--secondary-hue), 70%, 65%);
+            --text-dark: hsl(var(--primary-hue), 20%, 25%);
+            --text-light: hsl(0, 0%, 100%);
+            --glass-bg: hsla(0, 0%, 100%, 0.55); /* Semi-transparent white */
+            --glass-border: hsla(0, 0%, 100%, 0.7);
+            --shadow-color: hsla(var(--primary-hue), 40%, 50%, 0.2);
+            --shadow-strong-color: hsla(var(--primary-hue), 40%, 50%, 0.35);
+            --font-family: 'Cairo', sans-serif;
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 10px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            direction: rtl;
+            background: linear-gradient(135deg, hsl(190, 80%, 70%), hsl(var(--secondary-hue), 80%, 75%));
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 25px;
+            color: var(--text-dark);
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        /* --- Chat Container - Glassmorphism --- */
+        .chat-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px) saturate(150%);
+            -webkit-backdrop-filter: blur(15px) saturate(150%);
+            padding: 45px 55px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 12px 40px var(--shadow-color);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInContainer 0.8s 0.2s ease-out forwards;
+        }
+
+        @keyframes fadeInContainer {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Header --- */
+        .chat-header {
+            margin-bottom: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px; /* Keep padding for back button */
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+         .header-title i {
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+         }
+
+        .header-title h1 {
+            color: var(--primary-dark);
+            font-weight: 800;
+            font-size: 2.6rem;
+            line-height: 1.2;
+        }
+
+        .chat-header p {
+            color: hsl(var(--primary-hue), 15%, 45%);
+            font-size: 1.15rem;
+            max-width: 500px;
+            line-height: 1.7;
+        }
+
+        /* --- START: CSS لزر الرجوع فقط --- */
+        .top-actions {
+            position: absolute;
+            top: 25px;
+            left: 30px; /* Top-left in RTL */
+            display: flex; /* Keep flex in case more buttons are added later */
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .top-action-button {
+             color: var(--text-light);
+             border: none;
+             padding: 8px 15px;
+             border-radius: var(--border-radius-sm);
+             font-family: var(--font-family);
+             font-size: 0.95rem;
+             font-weight: 600;
+             cursor: pointer;
+             transition: all 0.3s ease;
+             display: inline-flex;
+             align-items: center;
+             justify-content: center;
+             gap: 8px;
+             text-decoration: none;
+             box-shadow: 0 4px 10px hsla(0, 0%, 0%, 0.1);
+        }
+         .top-action-button i {
+             font-size: 1.1em;
+         }
+
+        .top-action-button.back-button {
+             background: linear-gradient(145deg, var(--secondary-color), hsl(var(--secondary-hue), 75%, 55%)); /* Purple */
+        }
+         .top-action-button.back-button:hover {
+             background: linear-gradient(145deg, hsl(var(--secondary-hue), 75%, 55%), hsl(var(--secondary-hue), 70%, 45%));
+             transform: translateY(-2px);
+             box-shadow: 0 6px 15px hsla(var(--secondary-hue), 40%, 50%, 0.2);
+         }
+          .top-action-button:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 5px hsla(0, 0%, 0%, 0.1);
+        }
+        /* --- END: CSS لزر الرجوع فقط --- */
+
+
+        /* --- Questions Grid --- */
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* --- Question Button - Enhanced --- */
+        .question-button {
+            background: linear-gradient(145deg, var(--primary-color), hsl(var(--primary-hue), 90%, 65%));
+            color: var(--text-light);
+            border: none;
+            padding: 20px 25px;
+            border-radius: var(--border-radius-md);
+            font-family: var(--font-family);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-align: right;
+            box-shadow: 0 6px 18px hsla(var(--primary-hue), 50%, 50%, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transform: scale(0.9) translateY(10px);
+            animation: popIn 0.5s ease-out forwards;
+        }
+
+        .question-button:nth-child(1) { animation-delay: 0.4s; }
+        .question-button:nth-child(2) { animation-delay: 0.5s; }
+        .question-button:nth-child(3) { animation-delay: 0.6s; }
+        .question-button:nth-child(4) { animation-delay: 0.7s; }
+        .question-button:nth-child(5) { animation-delay: 0.8s; }
+        .question-button:nth-child(6) { animation-delay: 0.9s; }
+
+        @keyframes popIn {
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+
+        .question-button i {
+            font-size: 1.6em;
+            width: 30px;
+            text-align: center;
+            color: hsla(0, 0%, 100%, 0.85);
+            transition: transform 0.3s ease;
+        }
+
+        .question-button:hover {
+            background: linear-gradient(145deg, hsl(var(--primary-hue), 90%, 65%), var(--primary-dark));
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 10px 25px var(--shadow-strong-color);
+        }
+        .question-button:hover i {
+             transform: scale(1.1) rotate(-5deg);
+        }
+
+        .question-button:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 15px var(--shadow-color);
+        }
+
+        .question-button.selected {
+            background: var(--primary-dark);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2), 0 2px 5px hsla(var(--primary-hue), 50%, 50%, 0.15);
+             transform: scale(0.99);
+        }
+
+        .question-button:disabled {
+            background: linear-gradient(145deg, #b0bec5, #90a4ae);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.65;
+        }
+         .question-button:disabled i {
+             transform: none;
+         }
+
+        /* --- Response Area --- */
+        .response-area {
+            background: var(--primary-light);
+            border-radius: var(--border-radius-md);
+            padding: 30px 35px;
+            min-height: 120px;
+            text-align: right;
+            border: 1px solid hsl(var(--primary-hue), 50%, 85%);
+            position: relative;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06);
+             transition: background-color 0.4s ease;
+        }
+
+        .ai-answer {
+            font-size: 1.25rem;
+            line-height: 1.9;
+            color: var(--text-dark);
+            margin: 0;
+            white-space: pre-wrap;
+            transition: color 0.3s ease;
+        }
+
+         .ai-answer strong {
+             color: var(--primary-dark);
+             font-weight: 700;
+         }
+
+        /* Enhanced Typing indicator */
+        .ai-answer.typing::after {
+            content: '█';
+            display: inline-block;
+            animation: blink-cursor 0.9s infinite;
+            margin-right: 6px;
+            color: var(--primary-color);
+            font-weight: bold;
+            position: relative;
+            top: 1px;
+            opacity: 1;
+        }
+
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Initial Placeholder Style */
+        .ai-answer.placeholder {
+            color: hsl(var(--primary-hue), 15%, 60%);
+            font-style: normal;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+        .ai-answer.placeholder::before {
+             font-family: "Font Awesome 6 Free";
+             content: "\f10d";
+             font-weight: 900;
+             margin-left: 10px;
+             font-size: 1.1em;
+             opacity: 0.8;
+         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .chat-container { padding: 30px 25px; margin-top: 20px; margin-bottom: 20px; }
+             .chat-header { padding-top: 60px; margin-bottom: 30px; }
+             .header-title h1 { font-size: 2rem; }
+             .header-title i { font-size: 2.2rem; }
+            .chat-header p { font-size: 1rem; }
+            .questions-grid { grid-template-columns: 1fr; gap: 15px; }
+            .question-button { padding: 18px 20px; font-size: 1rem; }
+            .question-button i { font-size: 1.4em; }
+            .ai-answer { font-size: 1.1rem; }
+            .response-area { padding: 25px 20px; }
+            .top-actions { top: 15px; left: 15px; }
+            .top-action-button { font-size: 0.9rem; padding: 7px 12px; gap: 6px;}
+        }
+         @media (max-width: 480px) {
+             body { padding: 15px; }
+              .chat-container { padding: 25px 20px; }
+               .chat-header { padding-top: 65px; }
+             .header-title h1 { font-size: 1.7rem; }
+             .header-title i { font-size: 2rem; }
+             .header-title { gap: 10px; }
+             .top-actions { left: 10px; top: 10px;} /* Only one button now, no wrap needed */
+         }
+
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+
+         <!-- START: زر الرجوع فقط -->
+        <div class="top-actions">
+            <a href="index.html" class="top-action-button back-button">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>الرئيسية</span>
+            </a>
+            <!-- تم إزالة الزر الآخر -->
+        </div>
+        <!-- END: زر الرجوع فقط -->
+
+
+        <header class="chat-header">
+            <div class="header-title">
+                 <i class="fa-solid fa-school-flag"></i>
+                 <h1>مساعد مدرسة النفزاوية</h1>
+            </div>
+            <p>أهلاً بك في مساعد النفزاوية الذكي! اختر سؤالاً شائعاً أو استكشف معلومات المدرسة بسهولة.</p>
+        </header>
+
+        <div id="questions-grid" class="questions-grid">
+            <button class="question-button" data-question="ما هو اسم المدرسة؟">
+                <i class="fa-solid fa-school"></i>
+                <span>ما هو اسم المدرسة؟</span>
+            </button>
+            <button class="question-button" data-question="من هو المدير؟">
+                <i class="fa-solid fa-user-tie"></i>
+                <span>من هو المدير؟</span>
+            </button>
+            <button class="question-button" data-question="كم عدد الحراس؟">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>كم عدد الحراس؟</span>
+            </button>
+            <button class="question-button" data-question="من هم الحراس؟">
+                <i class="fa-solid fa-users-gear"></i>
+                <span>من هم الحراس؟</span>
+            </button>
+            <button class="question-button" data-question="من هم الأساتذة؟">
+                 <i class="fa-solid fa-person-chalkboard"></i>
+                 <span>من هم الأساتذة؟</span>
+             </button>
+             <button class="question-button" data-question="ما هي رؤية المدرسة؟">
+                 <i class="fa-solid fa-lightbulb"></i>
+                 <span>ما هي رؤية المدرسة؟</span>
+             </button>
+        </div>
+
+        <div id="response-area" class="response-area">
+            <p id="ai-answer" class="ai-answer placeholder">اضغط على أحد الأسئلة أعلاه لعرض الإجابة...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- School Data ---
+            const schoolData = {
+                "school_name": "مدرسة النفزاوية",
+                "director": { "name": "سفيان" },
+                "teachers": [ { "name": "دخيسي" }, { "name": "النخيلي" }, { "name": "الأستاذة إحسان" }, { "name": "الأستاذ جهابلي" } ],
+                "supervisors": [ { "name": "حميد" }, { "name": "كازاوي" }, { "name": "محمد" } ],
+                "vision": "نسعى لتوفير بيئة تعليمية محفزة وآمنة، تنمي مهارات الطلاب وتعدهم لمستقبل مشرق.",
+                "contact_info": "للتواصل، يرجى الاتصال بالإدارة على الرقم: [أدخل الرقم هنا] خلال ساعات الدوام الرسمي."
+            };
+
+            // --- DOM Elements ---
+            const chatContainer = document.querySelector('.chat-container');
+            const questionsGrid = document.getElementById('questions-grid');
+            const questionButtons = document.querySelectorAll('.question-button');
+            const responseArea = document.getElementById('response-area');
+            const aiAnswerElement = document.getElementById('ai-answer');
+            // تم إزالة تعريف specialActionButton
+
+            let isTyping = false;
+            let currentSelectedButton = null;
+
+            // --- Function to Get Answer ---
+            function getAnswer(question) {
+                const lowerCaseQuestion = question.toLowerCase();
+                if (lowerCaseQuestion.includes("اسم المدرسة")) return `اسم مدرستنا العريقة هو: **${schoolData.school_name}**. منارة للعلم والتربية في منطقتنا.`;
+                if (lowerCaseQuestion.includes("المدير")) return `يقود دفة المدرسة الأستاذ القدير: **${schoolData.director.name}**. يمكنك التواصل معه عبر إدارة المدرسة.`;
+                if (lowerCaseQuestion.includes("كم عدد الحراس")) {
+                    const count = schoolData.supervisors.length;
+                    let guardString = 'حراس أمن';
+                    if (count === 1) guardString = 'حارس أمن واحد'; else if (count === 2) guardString = 'حارسا أمن اثنان'; else if (count > 10) guardString = 'حارس أمن';
+                    return `لضمان سلامتكم، يتواجد في المدرسة **${count} ${guardString}**.`;
+                }
+                if (lowerCaseQuestion.includes("من هم الحراس")) return `فريق الأمن المسؤول يتألف من: **${schoolData.supervisors.map(s => `السيد ${s.name}`).join("، ")}**. تجدهم عند المداخل الرئيسية.`;
+                if (lowerCaseQuestion.includes("الأساتذة") || lowerCaseQuestion.includes("المعلمين")) return `نفخر بكادرنا التعليمي المتميز الذي يضم أساتذة أفاضل مثل: **${schoolData.teachers.map(t => t.name).join("، ")}** وغيرهم الكثيرين.`;
+                if (lowerCaseQuestion.includes("رؤية المدرسة")) return `**رؤيتنا:** ${schoolData.vision || "لم يتم تحديد الرؤية بعد."}`;
+                if (lowerCaseQuestion.includes("معلومات الاتصال") || lowerCaseQuestion.includes("رقم الهاتف")) return `**للتواصل:** ${schoolData.contact_info || "يرجى مراجعة الإدارة للحصول على معلومات الاتصال."}`;
+                return "عذرًا، لم أجد إجابة دقيقة لهذا السؤال. قد تكون المعلومة غير متوفرة لدي حاليًا.";
+            }
+
+            // --- Function to Simulate Typing Effect (with bold support) ---
+            function typeAnswer(text, element, speed = 40) {
+                return new Promise((resolve) => {
+                    element.innerHTML = '';
+                    element.classList.remove('placeholder');
+                    element.classList.add('typing');
+                    const segments = text.split(/(\*\*.*?\*\*)/g).filter(Boolean);
+                    function typeSegment(segmentIndex) {
+                        if (segmentIndex >= segments.length) { element.classList.remove('typing'); resolve(); return; }
+                        let segmentText = segments[segmentIndex];
+                        let isBold = false;
+                        if (segmentText.startsWith('**') && segmentText.endsWith('**')) { segmentText = segmentText.slice(2, -2); isBold = true; }
+                        let charIndex = 0;
+                        const intervalId = setInterval(() => {
+                            if (charIndex < segmentText.length) {
+                                const char = segmentText.charAt(charIndex);
+                                element.innerHTML += isBold ? `<strong>${char}</strong>` : char;
+                                charIndex++;
+                            } else { clearInterval(intervalId); typeSegment(segmentIndex + 1); }
+                        }, speed);
+                    }
+                    typeSegment(0);
+                });
+            }
+
+             // --- Function to Enable/Disable Buttons ---
+            function setButtonsDisabled(disabled) {
+                questionButtons.forEach(button => { button.disabled = disabled; });
+                // تم إزالة تعطيل specialActionButton
+            }
+
+            // --- Event Listener for Question Buttons ---
+            questionsGrid.addEventListener('click', async (event) => {
+                const clickedButton = event.target.closest('.question-button');
+                if (clickedButton && !isTyping) {
+                    isTyping = true;
+                    setButtonsDisabled(true);
+                    if (currentSelectedButton) currentSelectedButton.classList.remove('selected');
+                    clickedButton.classList.add('selected');
+                    currentSelectedButton = clickedButton;
+                    const questionText = clickedButton.dataset.question;
+                    const answerText = getAnswer(questionText);
+                    aiAnswerElement.innerHTML = '';
+                    aiAnswerElement.classList.add('typing');
+                    aiAnswerElement.classList.remove('placeholder');
+                    responseArea.style.backgroundColor = 'var(--primary-light)';
+                    await typeAnswer(answerText, aiAnswerElement, 40);
+                    isTyping = false;
+                     setTimeout(() => {
+                         setButtonsDisabled(false);
+                         if (currentSelectedButton === clickedButton) { clickedButton.classList.remove('selected'); currentSelectedButton = null; }
+                     }, 300);
+                }
+            });
+
+            // تم إزالة Event Listener الخاص بـ specialActionButton
+
+            // --- Initial State ---
+        });
+    </script>
+
+</body>
+</html>
